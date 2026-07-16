@@ -151,18 +151,18 @@ function DetailMeta({ post, category, center = false }: { post: SitePost; catego
   const rating = ratingOf(post)
   const filled = Math.round(rating)
   return (
-    <div className={`mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 ${center ? 'justify-center' : ''}`}>
+    <div className={`mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 ${center ? 'justify-center' : ''}`}>
       <span className="inline-flex items-center gap-[3px]">
         {[0, 1, 2, 3, 4].map((i) => (
           <Star key={i} className={`h-[18px] w-[18px] ${i < filled ? 'fill-[var(--tk-accent)] text-[var(--tk-accent)]' : 'fill-[var(--tk-line)] text-[var(--tk-line)]'}`} />
         ))}
       </span>
       <span className="text-sm font-semibold text-[var(--tk-text)]">{rating.toFixed(1)}</span>
-      <span className="text-sm text-[var(--tk-muted)]">{reviewsOf(post)} reviews</span>
+      <span className="text-sm uppercase tracking-[0.12em] text-[var(--tk-muted)]">{reviewsOf(post)} reviews</span>
       {category ? (
         <>
           <span className="h-1 w-1 rounded-full bg-[var(--tk-muted)] opacity-50" />
-          <span className="text-sm text-[var(--tk-muted)]">{category}</span>
+          <span className="text-sm uppercase tracking-[0.12em] text-[var(--tk-muted)]">{category}</span>
         </>
       ) : null}
     </div>
@@ -172,7 +172,7 @@ function DetailMeta({ post, category, center = false }: { post: SitePost; catego
 function Kicker({ task, children }: { task: TaskKey; children: React.ReactNode }) {
   const theme = getTaskTheme(task)
   return (
-    <div className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.3em] text-[var(--tk-accent)]">
+    <div className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.34em] text-[var(--tk-accent)]">
       <span>{theme.kicker}</span>
       <span className="h-1 w-1 rounded-full bg-[var(--tk-accent)] opacity-50" />
       <span className="text-[var(--tk-muted)]">{children}</span>
@@ -183,7 +183,7 @@ function Kicker({ task, children }: { task: TaskKey; children: React.ReactNode }
 function BackLink({ task }: { task: TaskKey }) {
   const taskConfig = getTaskConfig(task)
   return (
-    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--tk-muted)] transition hover:text-[var(--tk-text)]">
+    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 border border-[var(--tk-line)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--tk-muted)] transition hover:border-[var(--tk-accent)] hover:text-[var(--tk-text)]">
       <ArrowLeft className="h-4 w-4" /> Back to {taskConfig?.label || 'posts'}
     </Link>
   )
@@ -243,7 +243,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : null}
           <ContactAction website={website} phone={phone} email={email} />
-          <RelatedPanel task="listing" post={post} related={related} />
+          <RelatedPanel task="listing" related={related} />
         </aside>
       </div>
     </section>
@@ -376,7 +376,7 @@ function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
               <Link href={fileUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--tk-accent)] px-5 py-3 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90">Download <Download className="h-4 w-4" /></Link>
             </div>
           ) : null}
-          <RelatedPanel task="pdf" post={post} related={related} />
+          <RelatedPanel task="pdf" related={related} />
         </aside>
       </div>
     </section>
@@ -437,8 +437,8 @@ function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) 
   return (
     <div className="mt-8 grid gap-3 sm:grid-cols-2">
       {visible.map(([label, value, Icon]) => (
-        <div key={label} className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-4">
-          <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-[var(--tk-muted)]"><Icon className="h-4 w-4 text-[var(--tk-accent)]" /> {label}</div>
+        <div key={label} className="border border-[var(--tk-line)] bg-[var(--tk-surface)] p-4">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--tk-muted)]"><Icon className="h-4 w-4 text-[var(--tk-accent)]" /> {label}</div>
           <p className="mt-2 break-words text-sm font-medium leading-6">{value}</p>
         </div>
       ))}
@@ -450,9 +450,9 @@ function ImageStrip({ images, label, large = false }: { images: string[]; label:
   if (!images.length) return null
   return (
     <section className="mt-10">
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--tk-muted)]">{label}</p>
+      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--tk-muted)]">{label}</p>
       <div className={`mt-4 grid gap-3 ${large ? 'sm:grid-cols-2' : 'grid-cols-2 sm:grid-cols-4'}`}>
-        {images.slice(0, large ? 4 : 8).map((image, index) => <img key={`${image}-${index}`} src={image} alt="" className="aspect-[4/3] rounded-[var(--tk-radius)] border border-[var(--tk-line)] object-cover" />)}
+        {images.slice(0, large ? 4 : 8).map((image, index) => <img key={`${image}-${index}`} src={image} alt="" className="aspect-[4/3] border border-[var(--tk-line)] object-cover" />)}
       </div>
     </section>
   )
@@ -460,8 +460,8 @@ function ImageStrip({ images, label, large = false }: { images: string[]; label:
 
 function MapBox({ src, label }: { src: string; label: string }) {
   return (
-    <div className="overflow-hidden rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)]">
-      <div className="flex items-center gap-2 p-4 text-sm font-semibold"><MapPin className="h-4 w-4 text-[var(--tk-accent)]" /> {label || 'Map location'}</div>
+    <div className="overflow-hidden border border-[var(--tk-line)] bg-[var(--tk-surface)]">
+      <div className="flex items-center gap-2 p-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white"><MapPin className="h-4 w-4 text-[var(--tk-accent)]" /> {label || 'Map location'}</div>
       <iframe src={src} title="Map" loading="lazy" className="h-72 w-full border-0" />
     </div>
   )
@@ -471,15 +471,15 @@ function ContactAction({ website, phone, email, bare = false }: { website?: stri
   if (!website && !phone && !email) return null
   const buttons = (
     <div className={`flex flex-wrap gap-2.5 ${bare ? 'justify-center' : ''}`}>
-      {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[var(--tk-accent)] px-4 py-2.5 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90">Website <ExternalLink className="h-4 w-4" /></Link> : null}
-      {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-full border border-[var(--tk-line)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Phone className="h-4 w-4" /> Call</a> : null}
-      {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 rounded-full border border-[var(--tk-line)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Mail className="h-4 w-4" /> Email</a> : null}
+      {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[var(--tk-accent)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--tk-on-accent)] transition hover:opacity-90">Website <ExternalLink className="h-4 w-4" /></Link> : null}
+      {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 border border-[var(--tk-line)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.2em] transition hover:border-[var(--tk-accent)]"><Phone className="h-4 w-4" /> Call</a> : null}
+      {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 border border-[var(--tk-line)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.2em] transition hover:border-[var(--tk-accent)]"><Mail className="h-4 w-4" /> Email</a> : null}
     </div>
   )
   if (bare) return <div className="mt-6">{buttons}</div>
   return (
-    <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--tk-muted)]">Quick actions</p>
+    <div className="border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
+      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--tk-muted)]">Quick actions</p>
       <div className="mt-4">{buttons}</div>
     </div>
   )
@@ -487,29 +487,29 @@ function ContactAction({ website, phone, email, bare = false }: { website?: stri
 
 function BadgeLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-[var(--tk-line)] bg-[var(--tk-raised)] px-4 py-3 text-sm">
-      <span className="font-medium uppercase tracking-[0.12em] text-[var(--tk-muted)]">{label}</span>
+    <div className="flex items-center justify-between gap-4 border border-[var(--tk-line)] bg-[var(--tk-raised)] px-4 py-3 text-sm">
+      <span className="font-bold uppercase tracking-[0.14em] text-[var(--tk-muted)]">{label}</span>
       <span className="font-semibold">{value}</span>
     </div>
   )
 }
 
-function RelatedPanel({ task, post, related }: { task: TaskKey; post: SitePost; related: SitePost[] }) {
+function RelatedPanel({ task, related }: { task: TaskKey; related: SitePost[] }) {
   const taskConfig = getTaskConfig(task)
   return (
     <div className="space-y-6">
       <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--tk-muted)]">About this post</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--tk-muted)]">About this post</p>
         <div className="mt-4 grid gap-2.5 text-sm text-[var(--tk-muted)]">
           <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4 text-[var(--tk-accent)]" /> {taskConfig?.label || task}</p>
           <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[var(--tk-accent)]" /> {SITE_CONFIG.name}</p>
         </div>
       </div>
       {related.length ? (
-        <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
+        <div className="border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="editable-display text-lg font-semibold tracking-[-0.02em]">More like this</h2>
-            <Link href={taskConfig?.route || '/'} className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--tk-accent)]">View all</Link>
+            <h2 className="editable-display text-lg font-semibold tracking-[-0.05em] text-white">More like this</h2>
+            <Link href={taskConfig?.route || '/'} className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--tk-accent)]">View all</Link>
           </div>
           <div className="mt-5 grid gap-3">
             {related.map((item) => <RelatedCard key={item.id || item.slug} task={task} post={item} />)}
@@ -527,8 +527,8 @@ function RelatedStrip({ task, related }: { task: TaskKey; related: SitePost[] })
     <section className="border-t border-[var(--tk-line)]">
       <div className="mx-auto max-w-[var(--editable-container)] px-6 py-14 sm:py-16 lg:px-8">
         <div className="flex items-center justify-between">
-          <h2 className="editable-display text-2xl font-semibold tracking-[-0.02em]">More {(taskConfig?.label || 'posts').toLowerCase()}</h2>
-          <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--tk-accent)]">View all <ArrowUpRight className="h-4 w-4" /></Link>
+          <h2 className="editable-display text-2xl font-semibold tracking-[-0.05em] text-white">More {(taskConfig?.label || 'posts').toLowerCase()}</h2>
+          <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 bg-[var(--tk-accent)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--tk-on-accent)]">View all <ArrowUpRight className="h-4 w-4" /></Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {related.map((item) => <RelatedCard key={item.id || item.slug} task={task} post={item} grid />)}
@@ -546,22 +546,22 @@ function RelatedCard({ task, post, grid = false }: { task: TaskKey; post: SitePo
   const href = `${getTaskConfig(task)?.route || `/${task}`}/${post.slug}`
   if (grid) {
     return (
-      <Link href={href} className="group block overflow-hidden rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] transition duration-300 hover:-translate-y-1">
+      <Link href={href} className="group block overflow-hidden border border-[var(--tk-line)] bg-[var(--tk-surface)] transition duration-300 hover:-translate-y-1">
         <div className="aspect-[16/10] overflow-hidden bg-[var(--tk-raised)]">
           {image ? <img src={image} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" /> : <div className="flex h-full items-center justify-center"><FileText className="h-7 w-7 text-[var(--tk-muted)]" /></div>}
         </div>
         <div className="p-5">
-          <h3 className="editable-display line-clamp-2 text-base font-semibold leading-snug tracking-[-0.01em]">{post.title}</h3>
+          <h3 className="editable-display line-clamp-2 text-base font-semibold leading-snug tracking-[-0.04em] text-white">{post.title}</h3>
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--tk-muted)]">{stripHtml(summaryText(post))}</p>
         </div>
       </Link>
     )
   }
   return (
-    <Link href={href} className="group flex gap-3 rounded-xl border border-[var(--tk-line)] p-3 transition hover:border-[var(--tk-accent)]">
-      {image && task !== 'sbm' ? <img src={image} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" /> : <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-[var(--tk-raised)]"><FileText className="h-5 w-5 text-[var(--tk-muted)]" /></div>}
+    <Link href={href} className="group flex gap-3 border border-[var(--tk-line)] p-3 transition hover:border-[var(--tk-accent)]">
+      {image && task !== 'sbm' ? <img src={image} alt="" className="h-16 w-16 shrink-0 object-cover" /> : <div className="flex h-16 w-16 shrink-0 items-center justify-center bg-[var(--tk-raised)]"><FileText className="h-5 w-5 text-[var(--tk-muted)]" /></div>}
       <div className="min-w-0">
-        <h3 className="line-clamp-2 text-sm font-semibold leading-snug tracking-[-0.01em]">{post.title}</h3>
+        <h3 className="line-clamp-2 text-sm font-semibold leading-snug tracking-[-0.01em] text-white">{post.title}</h3>
         <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-[var(--tk-muted)]">{stripHtml(summaryText(post))}</p>
       </div>
     </Link>
